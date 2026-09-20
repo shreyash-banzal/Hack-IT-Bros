@@ -1,0 +1,6 @@
+{
+  "name": "Zero-Click Store Operator",
+  "description": "Autonomous AI operator for neighborhood Kirana and General Stores handling natural language orders, real MongoDB inventory, and tool-calling agent workflows.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
