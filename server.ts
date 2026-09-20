@@ -100,11 +100,24 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`[Server] Zero-Click Store Operator listening on http://0.0.0.0:${PORT}`);
-  });
+  // Vercel Serverless Function export vs Local Server start
+  if (process.env.VERCEL) {
+    console.log('[Server] Running in Vercel Serverless environment');
+  } else {
+    app.listen(Number(process.env.PORT || PORT), '0.0.0.0', () => {
+      console.log(`[Server] Zero-Click Store Operator listening on http://0.0.0.0:${process.env.PORT || PORT}`);
+    });
+  }
+
+  return app;
 }
 
-startServer().catch((err) => {
+// Start locally if not on Vercel, or provide module for Vercel
+const appPromise = startServer().catch((err) => {
   console.error('[Fatal Server Startup Error]:', err);
 });
+
+export default async function (req: any, res: any) {
+  const app = await appPromise;
+  if (app) return app(req, res);
+}
