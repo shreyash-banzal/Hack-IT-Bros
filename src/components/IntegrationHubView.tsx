@@ -1,154 +1,54 @@
-import React, { useState } from 'react';
-import { 
-  ExternalLink, 
-  Copy, 
-  Check, 
-  Code, 
-  ShieldCheck, 
-  MessageSquare, 
-  FileText, 
-  ArrowRight,
-  Sparkles,
-  Layers
-} from 'lucide-react';
+import React from 'react';
 
 export const IntegrationHubView: React.FC = () => {
-  const [copiedSection, setCopiedSection] = useState<string | null>(null);
-
-  const copyToClipboard = (text: string, sectionId: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedSection(sectionId);
-    setTimeout(() => setCopiedSection(null), 2500);
-  };
-
-  const envSnippet = `# Add these to your Chattify backend .env:
-GROQ_API_KEY=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
-STORE_BOT_USER_ID=6aaf8072dc34673e1203ac12`;
-
-  const controllerImportSnippet = `import { processStoreOperatorMessage } from "../lib/storeOperator.js";`;
-
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
-      {/* Header */}
-      <div>
-        <h2 className="text-lg font-bold text-stone-900 tracking-tight flex items-center gap-2">
-          <ExternalLink className="w-5 h-5 text-blue-600" />
-          Chattify App & WhatsApp Integration Hub
+    <div className="max-w-4xl mx-auto p-8 mt-12 bg-white rounded-3xl shadow-xl border border-stone-100 animate-in fade-in zoom-in duration-500">
+      <div className="flex flex-col items-center justify-center text-center">
+
+        {/* Header Icon */}
+        <div className="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-6 shadow-inner">
+          <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+          </svg>
+        </div>
+
+        <h2 className="text-4xl font-extrabold text-stone-800 mb-6 font-['Outfit'] tracking-tight">
+          Chattify Integration Live
         </h2>
-        <p className="text-xs text-stone-500">
-          Everything you need to connect your chat app or WhatsApp Business Cloud API to this autonomous Kirana store.
-        </p>
-      </div>
 
-      {/* Architecture Flow Diagram */}
-      <div className="bg-white p-6 rounded-xl border border-stone-200 shadow-xs">
-        <h3 className="text-xs font-bold text-stone-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-          <Layers className="w-4 h-4 text-stone-700" />
-          Zero-Click Autonomous Ordering Pipeline
-        </h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
-          <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/80 space-y-1.5">
-            <div className="w-6 h-6 rounded-md bg-stone-900 text-white flex items-center justify-center font-bold text-[11px]">
-              1
-            </div>
-            <div className="font-bold text-stone-900">Customer Messages</div>
-            <p className="text-stone-500 text-[11px] leading-relaxed">
-              Customer types Hindi/English order ("2 packet Maggi noodles aur 1 litre milk") in Chattify or WhatsApp.
-            </p>
-          </div>
-
-          <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/80 space-y-1.5">
-            <div className="w-6 h-6 rounded-md bg-amber-500 text-white flex items-center justify-center font-bold text-[11px]">
-              2
-            </div>
-            <div className="font-bold text-stone-900">Groq Tool Calling</div>
-            <p className="text-stone-500 text-[11px] leading-relaxed">
-              LLaMA 3.3 70B autonomously calls <code className="text-amber-700">search_product</code> and matches colloquial names.
-            </p>
-          </div>
-
-          <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/80 space-y-1.5">
-            <div className="w-6 h-6 rounded-md bg-emerald-600 text-white flex items-center justify-center font-bold text-[11px]">
-              3
-            </div>
-            <div className="font-bold text-stone-900">Atomic Reservation</div>
-            <p className="text-stone-500 text-[11px] leading-relaxed">
-              MongoDB <code className="text-emerald-700">$inc</code> atomic query decrements stock and ensures zero overselling.
-            </p>
-          </div>
-
-          <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/80 space-y-1.5">
-            <div className="w-6 h-6 rounded-md bg-blue-600 text-white flex items-center justify-center font-bold text-[11px]">
-              4
-            </div>
-            <div className="font-bold text-stone-900">Live Itemized Bill</div>
-            <p className="text-stone-500 text-[11px] leading-relaxed">
-              Receipt with real prices, grand total, and Order ID is sent back to customer via Socket.io / WhatsApp API.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Guide Card 1: .env Configuration */}
-      <div className="bg-white p-5 rounded-xl border border-stone-200 shadow-xs space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <FileText className="w-4 h-4 text-stone-600" />
-            <h3 className="font-semibold text-stone-900 text-sm">
-              1. Chattify Environment Variables (<code className="text-xs">backend/.env</code>)
-            </h3>
-          </div>
-          <button
-            onClick={() => copyToClipboard(envSnippet, 'env')}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium bg-stone-100 hover:bg-stone-200 text-stone-700 transition-colors"
-          >
-            {copiedSection === 'env' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-            {copiedSection === 'env' ? 'Copied' : 'Copy Env'}
-          </button>
-        </div>
-
-        <pre className="p-3 rounded-lg bg-stone-900 text-stone-100 text-xs font-mono overflow-x-auto">
-          {envSnippet}
-        </pre>
-      </div>
-
-      {/* Guide Card 2: Controller & Operator Engine */}
-      <div className="bg-white p-5 rounded-xl border border-stone-200 shadow-xs space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Code className="w-4 h-4 text-stone-600" />
-            <h3 className="font-semibold text-stone-900 text-sm">
-              2. Detailed Documentation File Generated
-            </h3>
-          </div>
-        </div>
-
-        <p className="text-xs text-stone-600 leading-relaxed">
-          A dedicated step-by-step file <code className="px-1.5 py-0.5 rounded bg-stone-100 font-mono text-stone-800">CHATTIFY_INTEGRATION_GUIDE.md</code> has been generated in your repository root with the exact copy-paste code for:
+        <p className="text-lg text-stone-600 mb-8 max-w-2xl leading-relaxed">
+          The Zero-Click Store Operator has been seamlessly integrated into our deployed live messaging platform, <strong>Chattify</strong>. Customers don't need to navigate complex UI menus; they simply send a natural language chat message, and the AI agent automatically extracts the intent, updates inventory, and provisions the order simultaneously!
         </p>
 
-        <ul className="text-xs text-stone-600 space-y-1.5 list-disc pl-5">
-          <li><strong>backend/src/lib/storeOperator.js</strong>: Self-contained Kirana product models, atomic MongoDB `$inc` concurrency checks, and Groq function tools.</li>
-          <li><strong>backend/src/controllers/message.controller.js</strong>: Drop-in replacement that catches messages addressed to <code className="text-stone-800 font-mono">STORE_BOT_USER_ID</code> and emits the reply to Socket.io.</li>
-        </ul>
-      </div>
-
-      {/* WhatsApp Cloud API Webhook */}
-      <div className="bg-white p-5 rounded-xl border border-stone-200 shadow-xs space-y-3">
-        <div className="flex items-center gap-2">
-          <MessageSquare className="w-4 h-4 text-emerald-600" />
-          <h3 className="font-semibold text-stone-900 text-sm">
-            3. Real Meta WhatsApp Cloud API Webhook
+        {/* Instructions Box */}
+        <div className="bg-blue-50/80 p-8 rounded-2xl border border-blue-200 max-w-lg w-full mb-10 text-left shadow-sm">
+          <h3 className="font-bold text-blue-900 mb-4 text-xl flex items-center gap-2">
+            <span>🛠️</span> How to test it:
           </h3>
+          <ol className="text-base text-blue-900 space-y-4 list-decimal pl-6 font-medium">
+            <li>Click the button below to open the deployed Chattify platform.</li>
+            <li>Send a message to the <span className="font-bold">"Kirana Store Operator"</span> contact.</li>
+            <li className="bg-white p-3 rounded-lg border border-blue-100 shadow-sm font-mono text-sm">
+              "Bhaiya 1kg sugar and 2 packet maggi bhej do."
+            </li>
+            <li>Watch the intelligent order automatically appear in your local Dashboard's <strong>Orders</strong> tab within milliseconds!</li>
+          </ol>
         </div>
-        <p className="text-xs text-stone-500">
-          This server also exposes a native Meta WhatsApp Cloud API webhook endpoint:
-        </p>
-        <div className="p-3 rounded-lg bg-stone-50 border border-stone-200 text-xs space-y-1 font-mono text-stone-800">
-          <div>Webhook URL: <span className="text-emerald-700">/api/whatsapp/webhook</span></div>
-          <div>Verification Token: <span className="text-stone-600">store_operator_token_123</span></div>
-        </div>
+
+        {/* CTA Button */}
+        <a
+          href="https://chattify-zzsr.onrender.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-full shadow-lg transition-transform transform hover:-translate-y-1 hover:shadow-blue-500/30 overflow-hidden"
+        >
+          <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></span>
+          <span className="relative z-10">Open Chattify App</span>
+          <svg className="w-6 h-6 relative z-10 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+
       </div>
     </div>
   );
